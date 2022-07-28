@@ -15,7 +15,10 @@
           <li v-if="film.original_language === 'it' || film.original_language === 'en'"><strong>Lingua</strong>: <img
               :src="require(`./assets/img/${film.original_language}.png`)" alt=""></li>
           <li v-else><strong>Lingua</strong>: {{ film.original_language }}</li>
-          <li><strong>Voto</strong>: {{ film.vote_average }}</li>
+          <li v-if="film.vote_average">
+            <strong>Voto</strong>:
+            <i v-for="index in getCorrectVote(film.vote_average)" class="fa-solid fa-star" :key="index"></i>
+          </li>
         </ul>
       </li>
     </ul>
@@ -34,7 +37,10 @@
           <li v-if="show.original_language === 'it' || show.original_language === 'en'"><strong>Lingua</strong>: <img
               :src="require(`./assets/img/${show.original_language}.png`)" alt=""></li>
           <li v-else><strong>Lingua</strong>: {{ show.original_language }}</li>
-          <li><strong>Voto</strong>: {{ show.vote_average }}</li>
+          <li v-if="show.vote_average">
+            <strong>Voto</strong>:
+            <i v-for="index in getCorrectVote(show.vote_average)" class="fa-solid fa-star" :key="index"></i>
+          </li>
         </ul>
       </li>
     </ul>
@@ -70,6 +76,9 @@ export default {
         });
       this.userInputText = '';
     },
+    getCorrectVote(number) {
+      return Math.ceil(number * 0.5);
+    }
   }
 }
 </script>
