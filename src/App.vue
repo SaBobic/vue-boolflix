@@ -1,15 +1,36 @@
 <template>
   <div>
-    <input type="text" placeholder="Cerca un film" v-model="userInputText">
-    <button @click="getFilmsList">CERCA</button>
+    <input type="text" placeholder="Cerca un film" v-model="userInputText" @keyup.enter="getArticlesLists">
+    <button @click="getArticlesLists">CERCA</button>
+
+    <h2>Films</h2>
 
     <ul>
       <li v-for="film in filmsList" :key="film.id">
         <h4>{{ film.title }}</h4>
         <ul>
           <li><strong>Titolo originale</strong>: {{ film.original_title }}</li>
-          <li><strong>Lingua</strong>: {{ film.original_language }}</li>
+          <li v-if="film.original_language === 'it' || film.original_language === 'en'"><strong>Lingua</strong>: <img
+              :src="require(`./assets/img/${film.original_language}.png`)" alt=""></li>
+          <li v-else><strong>Lingua</strong>: {{ film.original_language }}</li>
           <li><strong>Voto</strong>: {{ film.vote_average }}</li>
+        </ul>
+      </li>
+    </ul>
+
+    <hr>
+
+    <h2>TV Shows</h2>
+
+    <ul>
+      <li v-for="show in showsList" :key="show.id">
+        <h4>{{ show.name }}</h4>
+        <ul>
+          <li><strong>Titolo originale</strong>: {{ show.original_name }}</li>
+          <li v-if="show.original_language === 'it' || show.original_language === 'en'"><strong>Lingua</strong>: <img
+              :src="require(`./assets/img/${show.original_language}.png`)" alt=""></li>
+          <li v-else><strong>Lingua</strong>: {{ show.original_language }}</li>
+          <li><strong>Voto</strong>: {{ show.vote_average }}</li>
         </ul>
       </li>
     </ul>
@@ -25,18 +46,25 @@ export default {
     return {
       baseUri: 'https://api.themoviedb.org/3',
       apiKey: 'dc5cd34dec23a24fbe96764eb4a63f74',
-      searchFilmEndpoint: '/search/movie',
+      searchFilmsEndpoint: '/search/movie',
+      searchShowsEndpoint: '/search/tv',
       userInputText: '',
       filmsList: '',
+      showsList: '',
     }
   },
   methods: {
-    getFilmsList() {
-      axios.get(`${this.baseUri}${this.searchFilmEndpoint}?api_key=${this.apiKey}&query=${this.userInputText}`)
+    getArticlesLists() {
+      axios.get(`${this.baseUri}${this.searchFilmsEndpoint}?api_key=${this.apiKey}&query=${this.userInputText}`)
         .then(res => {
           this.filmsList = res.data.results;
-        })
-    }
+        });
+      axios.get(`${this.baseUri}${this.searchShowsEndpoint}?api_key=${this.apiKey}&query=${this.userInputText}`)
+        .then(res => {
+          this.showsList = res.data.results;
+        });
+      this.userInputText = '';
+    },
   }
 }
 </script>
