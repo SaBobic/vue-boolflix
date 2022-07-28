@@ -10,6 +10,8 @@
         <h4>{{ film.title }}</h4>
         <ul>
           <li><strong>Titolo originale</strong>: {{ film.original_title }}</li>
+          <li v-if="film.poster_path"><strong>Copertina</strong>: <img :src="`${baseImgUri}/w342${film.poster_path}`"
+              :alt="film.title"></li>
           <li v-if="film.original_language === 'it' || film.original_language === 'en'"><strong>Lingua</strong>: <img
               :src="require(`./assets/img/${film.original_language}.png`)" alt=""></li>
           <li v-else><strong>Lingua</strong>: {{ film.original_language }}</li>
@@ -27,6 +29,8 @@
         <h4>{{ show.name }}</h4>
         <ul>
           <li><strong>Titolo originale</strong>: {{ show.original_name }}</li>
+          <li v-if="show.poster_path"><strong>Copertina</strong>: <img :src="`${baseImgUri}/w342${show.poster_path}`"
+              :alt="show.name"></li>
           <li v-if="show.original_language === 'it' || show.original_language === 'en'"><strong>Lingua</strong>: <img
               :src="require(`./assets/img/${show.original_language}.png`)" alt=""></li>
           <li v-else><strong>Lingua</strong>: {{ show.original_language }}</li>
@@ -45,6 +49,7 @@ export default {
   data() {
     return {
       baseUri: 'https://api.themoviedb.org/3',
+      baseImgUri: 'https://image.tmdb.org/t/p',
       apiKey: 'dc5cd34dec23a24fbe96764eb4a63f74',
       searchFilmsEndpoint: '/search/movie',
       searchShowsEndpoint: '/search/tv',
