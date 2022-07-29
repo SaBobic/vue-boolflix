@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainHeader @search="fetchArticlesLists" />
+    <MainHeader @search="startSearch" />
     <MainPage :films-list="filmsList" :shows-list="showsList" />
   </div>
 </template>
@@ -20,21 +20,26 @@ export default {
     return {
       filmsList: [],
       showsList: [],
-      apiKey: "dc5cd34dec23a24fbe96764eb4a63f74",
-      baseUri: "https://api.themoviedb.org/3",
+      api: {
+        key: "dc5cd34dec23a24fbe96764eb4a63f74",
+        baseUri: "https://api.themoviedb.org/3",
+        lang: 'it-IT'
+      }
     }
   },
   methods: {
-    fetchArticlesLists(value) {
-      axios.get(`${this.baseUri}/search/movie?api_key=${this.apiKey}&query=${value}`)
-        .then(res => {
-          this.filmsList = res.data.results;
-        });
-      axios.get(`${this.baseUri}/search/tv?api_key=${this.apiKey}&query=${value}`)
-        .then(res => {
-          this.showsList = res.data.results;
-        });
+    startSearch(value) {
+      this.fetchData(value, '/search/movie', 'filmsList');
+      this.fetchData(value, '/search/tv', 'showsList');
     },
+    fetchData(value, endpoint, target) {
+      const { key, baseUri, lang } = this.api;
+
+      axios.get(`${baseUri}${endpoint}?api_key=${key}&language=${lang}&query=${value}`)
+        .then(res => {
+          this[target] = res.data.results;
+        });
+    }
   }
 }
 </script>
