@@ -8,13 +8,17 @@
                 <figure>
                     <img :src="`${baseImgUri}/w780${production.backdrop_path}`"
                         :alt="production.title || production.name">
-                    <figcaption class="title">{{ production.title || production.name }}</figcaption>
                     <i class="fa-solid fa-xmark" @click="hideFullProd"></i>
-                    <div class="play-button d-flex align-items-center">
-                        <i class="fa-solid fa-play"></i>
+                    <div class="play-prod d-flex align-items-center">
+                        <div class="play-button d-flex align-items-center">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <div>Riproduci</div>
                     </div>
+                    <div class="gradient-overlay"></div>
                 </figure>
                 <div class="prod-info">
+                    <figcaption class="title">{{ production.title || production.name }}</figcaption>
                     <div class="vote">
                         <i v-for="index in getCorrectVote(production.vote_average)" class="fa-solid fa-star"
                             :key="index"></i>
@@ -81,21 +85,6 @@ article {
             height: 100%;
             object-fit: cover;
         }
-
-        figcaption {
-            background: linear-gradient(transparent 0%, #181818 100%);
-            position: absolute;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 10px;
-            font-size: 21px;
-            font-weight: 700;
-        }
     }
 
     .full-prod {
@@ -119,16 +108,6 @@ article {
                     width: 100%;
                 }
 
-                figcaption {
-                    font-size: 30px;
-                    font-weight: 700;
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    padding: 10px 50px;
-                    background: linear-gradient(transparent 0%, #181818 100%);
-                }
 
                 i.fa-xmark {
                     font-size: 28px;
@@ -139,29 +118,58 @@ article {
                     cursor: pointer;
                 }
 
-                .play-button {
-                    cursor: pointer;
-                    font-size: 24px;
+                .gradient-overlay {
+                    height: 20px;
                     position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 60px;
-                    height: 60px;
-                    background-color: rgba($color: #000, $alpha: 0.5);
-                    border: 1px solid rgba($color: #fff, $alpha: 0.5);
-                    border-radius: 50%;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(transparent 0%, #181818 100%);
+                }
 
-                    i {
-                        color: rgba($color: #fff, $alpha: 0.5);
-                        transform: translateX(22px);
+                .play-prod {
+                    cursor: pointer;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    transform: translateY(30%);
+                    margin-left: 50px;
+                    font-weight: 700;
+                    z-index: 1;
+
+                    .play-button {
+                        font-size: 19px;
+                        width: 40px;
+                        height: 40px;
+                        background-color: #000;
+                        border: 2px solid #fff;
+                        border-radius: 50%;
+                        margin-right: 8px;
+
+                        i {
+                            color: #fff;
+                            transform: translate(13px, -1px);
+                        }
+                    }
+
+                    &:hover {
+                        .play-button {
+                            border: 2px solid #DE0913;
+                            background-color: #DE0913;
+                        }
                     }
                 }
             }
 
             .prod-info {
-                padding: 0 50px 30px;
+                padding: 30px 50px;
 
+                figcaption {
+                    font-size: 30px;
+                    font-weight: 700;
+                }
+
+                figcaption,
                 .vote,
                 .overview {
                     margin-bottom: 10px;
