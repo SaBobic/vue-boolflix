@@ -37,9 +37,14 @@ export default {
 
       axios.get(`${baseUri}${endpoint}?api_key=${key}&language=${lang}&query=${value}`)
         .then(res => {
-          this[target] = res.data.results;
+          const rawArray = res.data.results;
+          this[target] = rawArray.filter(item => item.backdrop_path !== null && item.poster_path !== null);
         });
     }
+  },
+  created() {
+    this.fetchData('stranger', '/search/movie', 'filmsList');
+    this.fetchData('stranger', '/search/tv', 'showsList');
   }
 }
 </script>

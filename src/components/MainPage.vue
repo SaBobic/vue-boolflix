@@ -2,9 +2,9 @@
     <main>
         <section id="films" class="container">
             <h2>Film</h2>
-            <div class="row">
-                <div v-for="film in filmsList" :key="film.id" class="col">
-                    <BaseCard :production="film" />
+            <div class="row g-1">
+                <div v-for="film in filmsList" :key="film.id" class="col-3">
+                    <SearchCard :production="film" />
                 </div>
             </div>
         </section>
@@ -12,8 +12,8 @@
         <section id="tv-shows" class="container">
             <h2>Serie TV</h2>
             <div class="row">
-                <div v-for="show in showsList" :key="show.id" class="col">
-                    <BaseCard :production="show" />
+                <div v-for="show in showsList" :key="show.id" class="col-3">
+                    <SearchCard :production="show" />
                 </div>
             </div>
         </section>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import BaseCard from './BaseCard.vue';
+import SearchCard from './SearchCard.vue';
 export default {
     name: "MainPage",
     data() {
@@ -38,7 +38,7 @@ export default {
             return Math.ceil(number * 0.5);
         },
     },
-    components: { BaseCard }
+    components: { SearchCard }
 }
 </script>
 
