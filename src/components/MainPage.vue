@@ -11,7 +11,7 @@
 
         <section id="tv-shows" class="container">
             <h2>Serie TV</h2>
-            <div class="row">
+            <div class="row g-1">
                 <div v-for="show in showsList" :key="show.id" class="col-3">
                     <SearchCard :production="show" />
                 </div>

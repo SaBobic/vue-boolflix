@@ -2,7 +2,6 @@
     <article>
         <figure @click="showFullProd">
             <img :src="`${baseImgUri}/w342${production.poster_path}`" :alt="production.title || production.name">
-            <figcaption>{{ production.title || production.name }}</figcaption>
         </figure>
         <div class="full-prod d-none d-flex justify-content-center align-items-center" ref="fullProd">
             <div>
@@ -11,6 +10,9 @@
                         :alt="production.title || production.name">
                     <figcaption class="title">{{ production.title || production.name }}</figcaption>
                     <i class="fa-solid fa-xmark" @click="hideFullProd"></i>
+                    <div class="play-button d-flex align-items-center">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
                 </figure>
                 <div class="prod-info">
                     <div class="vote">
@@ -45,7 +47,7 @@ export default {
     computed: {
         reducedOverview() {
             const supString = this.production.overview;
-            return supString.length > 150 ? supString.substr(0, 150) + '...' : supString;
+            return supString.length > 250 ? supString.substr(0, 250) + '...' : supString;
         },
     },
     methods: {
@@ -81,13 +83,17 @@ article {
         }
 
         figcaption {
-            background-color: rgba($color: #000000, $alpha: 0.6);
+            background: linear-gradient(transparent 0%, #181818 100%);
             position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
             left: 0;
             right: 0;
             bottom: 0;
-            padding: 5px 10px;
-            font-size: 17px;
+            padding: 10px;
+            font-size: 21px;
             font-weight: 700;
         }
     }
@@ -124,13 +130,32 @@ article {
                     background: linear-gradient(transparent 0%, #181818 100%);
                 }
 
-                i {
+                i.fa-xmark {
                     font-size: 28px;
                     text-shadow: 0px 0px 5px #000;
                     position: absolute;
                     right: 10px;
                     top: 10px;
                     cursor: pointer;
+                }
+
+                .play-button {
+                    cursor: pointer;
+                    font-size: 24px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 60px;
+                    height: 60px;
+                    background-color: rgba($color: #000, $alpha: 0.5);
+                    border: 1px solid rgba($color: #fff, $alpha: 0.5);
+                    border-radius: 50%;
+
+                    i {
+                        color: rgba($color: #fff, $alpha: 0.5);
+                        transform: translateX(22px);
+                    }
                 }
             }
 
