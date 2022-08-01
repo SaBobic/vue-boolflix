@@ -1,7 +1,7 @@
 <template>
   <div>
     <MainHeader @search="startSearch" />
-    <MainPage :films-list="filmsList" :shows-list="showsList" />
+    <MainPage :films-list="filmsList" :shows-list="showsList" :search-term="searchTerm" />
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
     return {
       filmsList: [],
       showsList: [],
+      searchTerm: '',
       api: {
         key: "dc5cd34dec23a24fbe96764eb4a63f74",
         baseUri: "https://api.themoviedb.org/3",
@@ -31,6 +32,7 @@ export default {
     startSearch(value) {
       this.fetchData(value, '/search/movie', 'filmsList');
       this.fetchData(value, '/search/tv', 'showsList');
+      this.searchTerm = value;
     },
     fetchData(value, endpoint, target) {
       const { key, baseUri, lang } = this.api;

@@ -1,7 +1,10 @@
 <template>
     <main>
+        <section id="search-term" class="container">
+            <h2>Risultati per "{{ searchTerm }}".</h2>
+        </section>
         <section id="films" class="container">
-            <h2>Film</h2>
+            <h3>Film</h3>
             <div class="row g-1">
                 <div v-for="film in filmsList" :key="film.id" class="col-3">
                     <SearchCard :production="film" />
@@ -10,7 +13,7 @@
         </section>
 
         <section id="tv-shows" class="container">
-            <h2>Serie TV</h2>
+            <h3>Serie TV</h3>
             <div class="row g-1">
                 <div v-for="show in showsList" :key="show.id" class="col-3">
                     <SearchCard :production="show" />
@@ -30,6 +33,7 @@ export default {
         };
     },
     props: {
+        searchTerm: String,
         filmsList: Array,
         showsList: Array,
     },
@@ -45,10 +49,23 @@ export default {
 <style lang="scss" scoped>
 main {
     background-color: #181818;
+    padding: 30px 0;
     color: #fff;
 
     section {
         margin-bottom: 100px;
     }
+
+    #search-term {
+        padding: 0 10px;
+        color: #aeaeae;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #aeaeae;
+
+        h2 {
+            font-size: 20px;
+        }
+    }
+
 }
 </style>
