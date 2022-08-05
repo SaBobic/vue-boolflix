@@ -7,7 +7,7 @@
             <h3>Film</h3>
             <div class="row g-1">
                 <div v-for="film in filmsList" :key="film.id" class="col-3">
-                    <SearchCard :production="film" />
+                    <SearchCard :production="film" type="film" base-img-uri="'https://image.tmdb.org/t/p'" />
                 </div>
             </div>
         </section>
@@ -16,7 +16,7 @@
             <h3>Serie TV</h3>
             <div class="row g-1">
                 <div v-for="show in showsList" :key="show.id" class="col-3">
-                    <SearchCard :production="show" />
+                    <SearchCard :production="show" type="show" />
                 </div>
             </div>
         </section>
@@ -27,11 +27,6 @@
 import SearchCard from './SearchCard.vue';
 export default {
     name: "MainPage",
-    data() {
-        return {
-            baseImgUri: "https://image.tmdb.org/t/p",
-        };
-    },
     props: {
         searchTerm: String,
         filmsList: Array,

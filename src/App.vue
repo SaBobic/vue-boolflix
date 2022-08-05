@@ -42,7 +42,7 @@ export default {
           const rawArray = res.data.results;
           this[target] = rawArray.filter(item => item.backdrop_path !== null && item.poster_path !== null);
         });
-    }
+    },
   },
   created() {
     this.fetchData('stranger', '/search/movie', 'filmsList');

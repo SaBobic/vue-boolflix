@@ -20,8 +20,7 @@
                 <div class="prod-info">
                     <figcaption class="title">{{ production.title || production.name }}</figcaption>
                     <div class="vote">
-                        <i v-for="index in getCorrectVote(production.vote_average)" class="fa-solid fa-star"
-                            :key="index"></i>
+                        <i v-for="index in correctVote" class="fa-solid fa-star" :key="index"></i>
                         <span>{{ production.release_date || production.first_air_date }}</span>
                     </div>
                     <div class="overview">{{ reducedOverview }}</div>
@@ -31,6 +30,8 @@
                             :src="require(`../assets/img/${production.original_language}.png`)" alt="">
                         <span v-else>{{ production.original_language }}</span>
                     </div>
+                    <div v-if="genres.length > 0" class="genres">Genere: {{ detailsList(genres) }}</div>
+                    <div v-if="cast.length > 0" class="cast">Cast: {{ detailsList(cast) }}</div>
                 </div>
             </div>
         </div>
@@ -38,14 +39,23 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'SearchCard',
     props: {
         production: Object,
+        type: String,
     },
     data() {
         return {
             baseImgUri: "https://image.tmdb.org/t/p",
+            api: {
+                key: "dc5cd34dec23a24fbe96764eb4a63f74",
+                baseUri: "https://api.themoviedb.org/3",
+            },
+            genres: [],
+            cast: [],
         };
     },
     computed: {
@@ -53,11 +63,11 @@ export default {
             const supString = this.production.overview;
             return supString.length > 250 ? supString.substr(0, 250).trim() + '...' : supString;
         },
+        correctVote() {
+            return Math.ceil(this.production.vote_average * 0.5);
+        },
     },
     methods: {
-        getCorrectVote(number) {
-            return Math.ceil(number * 0.5);
-        },
         showFullProd() {
             this.$refs.fullProd.classList.remove('d-none');
             this.$refs.fullProd.classList.add('d-block');
@@ -66,6 +76,33 @@ export default {
             this.$refs.fullProd.classList.remove('d-block');
             this.$refs.fullProd.classList.add('d-none');
         },
+        fetchDetails() {
+            const { key, baseUri } = this.api;
+
+            if (this.type === 'film') {
+                axios.get(`${baseUri}/movie/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
+                    .then(res => {
+                        res.data.genres.forEach(genre => this.genres.push(genre.name));
+                        this.cast.push(res.data.credits.cast[0].name, res.data.credits.cast[1].name, res.data.credits.cast[2].name, res.data.credits.cast[3].name, res.data.credits.cast[4].name);
+                    });
+            } else {
+                axios.get(`${baseUri}/tv/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
+                    .then(res => {
+                        res.data.genres.forEach(genre => this.genres.push(genre.name));
+                        this.cast.push(res.data.credits.cast[0].name, res.data.credits.cast[1].name, res.data.credits.cast[2].name, res.data.credits.cast[3].name, res.data.credits.cast[4].name);
+                    });
+            }
+        },
+        detailsList(arr) {
+            let string = '';
+            for (let i = 0; i < arr.length; i++) {
+                i === arr.length - 1 ? string += `${arr[i]}` : string += `${arr[i]}, `;
+            }
+            return string;
+        },
+    },
+    mounted() {
+        this.fetchDetails();
     }
 }
 </script>
@@ -171,7 +208,8 @@ article {
 
                 figcaption,
                 .vote,
-                .overview {
+                .overview,
+                .production-language {
                     margin-bottom: 10px;
                 }
 
