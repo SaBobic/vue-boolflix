@@ -1,6 +1,6 @@
 <template>
     <article>
-        <figure @click="showFullProd">
+        <figure @click="showFullProd(), fetchDetails()">
             <img :src="`${baseImgUri}/w342${production.poster_path}`" :alt="production.title || production.name">
         </figure>
         <div class="full-prod d-none d-flex justify-content-center align-items-center" ref="fullProd">
@@ -21,7 +21,9 @@
                     <figcaption class="title">{{ production.title || production.name }}</figcaption>
                     <div class="vote">
                         <i v-for="index in correctVote" class="fa-solid fa-star" :key="index"></i>
-                        <span>{{ production.release_date || production.first_air_date }}</span>
+                        <span class="release-date">{{ year }}</span>
+                        <span class="runtime">{{ formattedRuntime }}</span>
+                        <span class="seasons">{{ seasons }}</span>
                     </div>
                     <div class="overview">{{ reducedOverview }}</div>
                     <div class="production-language">
@@ -56,6 +58,8 @@ export default {
             },
             genres: [],
             cast: [],
+            runtime: null,
+            seasons: '',
         };
     },
     computed: {
@@ -65,6 +69,21 @@ export default {
         },
         correctVote() {
             return Math.ceil(this.production.vote_average * 0.5);
+        },
+        formattedRuntime() {
+            const hours = Math.floor(this.runtime / 60);
+            const minutes = this.runtime - (hours * 60);
+            return `${hours}h ${minutes}min`;
+        },
+        year() {
+            if (this.production.release_date) {
+                const d = new Date(this.production.release_date);
+                return d.getFullYear();
+            } else {
+                const d = new Date(this.production.first_air_date);
+                console.log(d);
+                return d.getFullYear();
+            }
         },
     },
     methods: {
@@ -83,6 +102,16 @@ export default {
                 .then(res => {
                     res.data.genres.forEach(genre => this.genres.push(genre.name));
                     res.data.credits.cast.forEach(item => this.cast.push(item.name));
+                    if (this.type === 'movie') {
+                        this.runtime = res.data.runtime;
+                    }
+                    if (this.type === 'tv') {
+                        if (res.data.number_of_seasons === 1) {
+                            this.seasons = res.data.number_of_seasons + ' stagione';
+                        } else {
+                            this.seasons = res.data.number_of_seasons + ' stagioni';
+                        }
+                    }
                 });
         },
         detailsList(arr) {
@@ -93,9 +122,6 @@ export default {
             return string;
         },
     },
-    mounted() {
-        this.fetchDetails();
-    }
 }
 </script>
 
@@ -213,6 +239,11 @@ article {
                             margin-right: 10px;
                         }
                     }
+                }
+
+                .release-date,
+                .runtime {
+                    margin-right: 10px;
                 }
 
                 .production-language {
