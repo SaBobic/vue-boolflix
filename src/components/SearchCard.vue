@@ -79,24 +79,16 @@ export default {
         fetchDetails() {
             const { key, baseUri } = this.api;
 
-            if (this.type === 'film') {
-                axios.get(`${baseUri}/movie/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
-                    .then(res => {
-                        res.data.genres.forEach(genre => this.genres.push(genre.name));
-                        this.cast.push(res.data.credits.cast[0].name, res.data.credits.cast[1].name, res.data.credits.cast[2].name, res.data.credits.cast[3].name, res.data.credits.cast[4].name);
-                    });
-            } else {
-                axios.get(`${baseUri}/tv/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
-                    .then(res => {
-                        res.data.genres.forEach(genre => this.genres.push(genre.name));
-                        this.cast.push(res.data.credits.cast[0].name, res.data.credits.cast[1].name, res.data.credits.cast[2].name, res.data.credits.cast[3].name, res.data.credits.cast[4].name);
-                    });
-            }
+            axios.get(`${baseUri}/${this.type}/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
+                .then(res => {
+                    res.data.genres.forEach(genre => this.genres.push(genre.name));
+                    res.data.credits.cast.forEach(item => this.cast.push(item.name));
+                });
         },
         detailsList(arr) {
             let string = '';
-            for (let i = 0; i < arr.length; i++) {
-                i === arr.length - 1 ? string += `${arr[i]}` : string += `${arr[i]}, `;
+            for (let i = 0; i < arr.length && i < 5; i++) {
+                i === arr.length - 1 || i === 4 ? string += `${arr[i]}` : string += `${arr[i]}, `;
             }
             return string;
         },

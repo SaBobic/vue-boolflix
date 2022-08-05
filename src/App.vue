@@ -44,10 +44,6 @@ export default {
         });
     },
   },
-  created() {
-    this.fetchData('stranger', '/search/movie', 'filmsList');
-    this.fetchData('stranger', '/search/tv', 'showsList');
-  }
 }
 </script>
 
