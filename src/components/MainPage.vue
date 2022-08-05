@@ -3,7 +3,7 @@
         <section id="search-term" class="container">
             <h2>Risultati per "{{ searchTerm }}".</h2>
         </section>
-        <section id="films" class="container">
+        <section v-if="filmsList.length > 0" id="films" class="container">
             <h3>Film</h3>
             <div class="row g-1">
                 <div v-for="film in filmsList" :key="film.id" class="col-3">
@@ -12,7 +12,7 @@
             </div>
         </section>
 
-        <section id="tv-shows" class="container">
+        <section v-if="showsList.length > 0" id="tv-shows" class="container">
             <h3>Serie TV</h3>
             <div class="row g-1">
                 <div v-for="show in showsList" :key="show.id" class="col-3">

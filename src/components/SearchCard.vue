@@ -51,7 +51,7 @@ export default {
     computed: {
         reducedOverview() {
             const supString = this.production.overview;
-            return supString.length > 250 ? supString.substr(0, 250) + '...' : supString;
+            return supString.length > 250 ? supString.substr(0, 250).trim() + '...' : supString;
         },
     },
     methods: {
