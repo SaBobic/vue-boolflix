@@ -22,7 +22,7 @@
                     <div class="vote">
                         <i v-for="index in correctVote" class="fa-solid fa-star" :key="index"></i>
                         <span class="release-date">{{ year }}</span>
-                        <span class="runtime">{{ formattedRuntime }}</span>
+                        <span v-if="formattedRuntime !== '0h 0min'" class="runtime">{{ formattedRuntime }}</span>
                         <span class="seasons">{{ seasons }}</span>
                     </div>
                     <div class="overview">{{ reducedOverview }}</div>
