@@ -1,6 +1,6 @@
 <template>
     <article>
-        <figure @click="toggleFullProd(), fetchDetails()">
+        <figure @click="toggleFullProd">
             <img :src="`${baseImgUri}/w342${production.poster_path}`" :alt="production.title || production.name">
         </figure>
         <div class="full-prod d-none d-flex justify-content-center align-items-center" ref="fullProd">
@@ -116,6 +116,9 @@ export default {
             return string;
         },
     },
+    created() {
+        this.fetchDetails();
+    }
 }
 </script>
 
