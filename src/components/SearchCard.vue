@@ -1,6 +1,6 @@
 <template>
     <article>
-        <figure @click="showFullProd(), fetchDetails()">
+        <figure @click="toggleFullProd(), fetchDetails()">
             <img :src="`${baseImgUri}/w342${production.poster_path}`" :alt="production.title || production.name">
         </figure>
         <div class="full-prod d-none d-flex justify-content-center align-items-center" ref="fullProd">
@@ -8,7 +8,7 @@
                 <figure>
                     <img :src="`${baseImgUri}/w780${production.backdrop_path}`"
                         :alt="production.title || production.name">
-                    <i class="fa-solid fa-xmark" @click="hideFullProd"></i>
+                    <i class="fa-solid fa-xmark" @click="toggleFullProd"></i>
                     <div class="play-prod d-flex align-items-center">
                         <div class="play-button d-flex align-items-center">
                             <i class="fa-solid fa-play"></i>
@@ -81,19 +81,13 @@ export default {
                 return d.getFullYear();
             } else {
                 const d = new Date(this.production.first_air_date);
-                console.log(d);
                 return d.getFullYear();
             }
         },
     },
     methods: {
-        showFullProd() {
-            this.$refs.fullProd.classList.remove('d-none');
-            this.$refs.fullProd.classList.add('d-block');
-        },
-        hideFullProd() {
-            this.$refs.fullProd.classList.remove('d-block');
-            this.$refs.fullProd.classList.add('d-none');
+        toggleFullProd() {
+            this.$refs.fullProd.classList.toggle('d-none');
         },
         fetchDetails() {
             const { key, baseUri } = this.api;
