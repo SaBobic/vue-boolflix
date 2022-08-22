@@ -2,6 +2,7 @@
     <article>
         <figure @click="fetchDetails()">
             <img :src="getPoster()" :alt="production.title || production.name">
+            <h4 v-if="!production.poster_path">{{ production.title || production.name }}</h4>
         </figure>
         <FullProd v-if="display" :production="production" :base-img-uri="baseImgUri" @display="hideFullProd"
             :seasons="seasons" :runtime="runtime" :genres="genres" :cast="cast" />
@@ -70,7 +71,7 @@ export default {
 article {
     height: 100%;
 
-    >figure {
+    figure {
         height: 100%;
         margin: 0;
         position: relative;
@@ -80,6 +81,12 @@ article {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        h4 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
         }
     }
 }
