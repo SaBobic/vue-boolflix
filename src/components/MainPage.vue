@@ -3,6 +3,7 @@
         <section id="search-term" class="container">
             <h2>Risultati per "{{ searchTerm }}".</h2>
         </section>
+
         <section v-if="filmsList.length > 0" id="films" class="container">
             <h3>Film</h3>
             <div class="row g-1">

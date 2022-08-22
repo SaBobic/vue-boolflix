@@ -2,7 +2,7 @@
     <div class="full-prod d-flex justify-content-center align-items-center" ref="fullProd">
         <div>
             <figure>
-                <img :src="`${baseImgUri}/w780${production.backdrop_path}`" :alt="production.title || production.name">
+                <img :src="getBackdrop()" :alt="production.title || production.name">
                 <i class="fa-solid fa-xmark" @click="emitDisplay"></i>
                 <div class="play-prod d-flex align-items-center">
                     <div class="play-button d-flex align-items-center">
@@ -16,7 +16,7 @@
                 <figcaption class="title">{{ production.title || production.name }}</figcaption>
                 <div class="vote">
                     <i v-for="index in correctVote" class="fa-solid fa-star" :key="index"></i>
-                    <span class="release-date">{{ year }}</span>
+                    <span v-if="year" class="release-date">{{ year }}</span>
                     <span v-if="formattedRuntime !== '0h 0min'" class="runtime">{{ formattedRuntime }}</span>
                     <span class="seasons">{{ seasons }}</span>
                 </div>
@@ -80,6 +80,10 @@ export default {
             }
             return string;
         },
+        getBackdrop() {
+            if (!this.production.poster_path) return 'https://via.placeholder.com/800x450.png';
+            return `${this.baseImgUri}/w780${this.production.backdrop_path}`;
+        }
     },
 }
 </script>

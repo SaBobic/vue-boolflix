@@ -1,7 +1,7 @@
 <template>
     <article>
         <figure @click="fetchDetails()">
-            <img :src="`${baseImgUri}/w342${production.poster_path}`" :alt="production.title || production.name">
+            <img :src="getPoster()" :alt="production.title || production.name">
         </figure>
         <FullProd v-if="display" :production="production" :base-img-uri="baseImgUri" @display="hideFullProd"
             :seasons="seasons" :runtime="runtime" :genres="genres" :cast="cast" />
@@ -57,6 +57,10 @@ export default {
                     this.display = true;
                 });
         },
+        getPoster() {
+            if (!this.production.poster_path) return 'https://via.placeholder.com/342x513.png';
+            return `${this.baseImgUri}/w342${this.production.poster_path}`;
+        }
     }
 }
 </script>
