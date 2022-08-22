@@ -39,6 +39,7 @@ export default {
         },
         fetchDetails() {
             const { key, baseUri } = this.api;
+            this.genres = this.cast = [];
             axios.get(`${baseUri}/${this.type}/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
                 .then(res => {
                     res.data.genres.forEach(genre => this.genres.push(genre.name));
