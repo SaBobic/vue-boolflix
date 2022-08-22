@@ -3,21 +3,31 @@
         <nav>
             <h1>BOOLFLIX</h1>
         </nav>
-        <BaseSearchInput @search="emitSearchTerm" placeholder="Cerca una produzione..." />
+        <div>
+            <BaseSelect @select="emitSearchGenre" :options="genresList" />
+            <BaseSearchInput @search="emitSearchTerm" placeholder="Cerca una produzione..." />
+        </div>
     </header>
 </template>
 
 <script>
 import BaseSearchInput from './BaseSearchInput.vue';
+import BaseSelect from './BaseSelect.vue';
 
 export default {
     name: "MainHeader",
+    props: {
+        genresList: Array,
+    },
     methods: {
         emitSearchTerm(value) {
             this.$emit("search", value);
         },
+        emitSearchGenre(value) {
+            this.$emit("select", value);
+        },
     },
-    components: { BaseSearchInput }
+    components: { BaseSearchInput, BaseSelect }
 }
 </script>
 
