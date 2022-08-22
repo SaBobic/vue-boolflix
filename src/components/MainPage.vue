@@ -44,6 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
+    min-height: calc(100vh - 56px);
     background-color: #181818;
     padding: 30px 0;
     color: #fff;

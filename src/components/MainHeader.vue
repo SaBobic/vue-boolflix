@@ -36,5 +36,9 @@ header {
     background-color: #000;
     color: #fff;
     padding: 0px 20px;
+
+    h1 {
+        color: #DE0913;
+    }
 }
 </style>
