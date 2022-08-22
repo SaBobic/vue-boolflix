@@ -40,9 +40,11 @@ export default {
         },
         fetchDetails() {
             const { key, baseUri } = this.api;
-            this.genres = this.cast = [];
+            this.genres = [];
+            this.cast = [];
             axios.get(`${baseUri}/${this.type}/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
                 .then(res => {
+                    console.log(res.data.genres);
                     res.data.genres.forEach(genre => this.genres.push(genre.name));
                     res.data.credits.cast.forEach(item => this.cast.push(item.name));
                     if (this.type === "movie") {
