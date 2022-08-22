@@ -35,25 +35,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     name: 'FullProd',
     props: {
         production: Object,
         baseImgUri: String,
-    },
-    data() {
-        return {
-            api: {
-                key: "dc5cd34dec23a24fbe96764eb4a63f74",
-                baseUri: "https://api.themoviedb.org/3",
-            },
-            seasons: "",
-            runtime: null,
-            genres: [],
-            cast: [],
-        }
+        seasons: String,
+        runtime: Number,
+        genres: Array,
+        cast: Array,
     },
     computed: {
         reducedOverview() {
@@ -80,24 +70,8 @@ export default {
         },
     },
     methods: {
-        fetchDetails() {
-            const { key, baseUri } = this.api;
-            axios.get(`${baseUri}/${this.type}/${this.production.id}?api_key=${key}&language=it&append_to_response=credits`)
-                .then(res => {
-                    res.data.genres.forEach(genre => this.genres.push(genre.name));
-                    res.data.credits.cast.forEach(item => this.cast.push(item.name));
-                    if (this.type === "movie") {
-                        this.runtime = res.data.runtime;
-                    }
-                    if (this.type === "tv") {
-                        if (res.data.number_of_seasons === 1) {
-                            this.seasons = res.data.number_of_seasons + " stagione";
-                        }
-                        else {
-                            this.seasons = res.data.number_of_seasons + " stagioni";
-                        }
-                    }
-                });
+        emitDisplay() {
+            this.$emit('display', false);
         },
         detailsList(arr) {
             let string = "";
@@ -106,9 +80,6 @@ export default {
             }
             return string;
         },
-        emitDisplay() {
-            this.$emit('display', false);
-        }
     },
 }
 </script>
